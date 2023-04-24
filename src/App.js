@@ -2,17 +2,25 @@ import React from "react";
 import { useState } from "react";
 
 function App() {
-  const[file, setFile] = useState();
+  const [file, setFile] = useState();
+
   function handleFile(event) {
     setFile(event.target.files[0]);
   }
-  function handleUpload() {
+  async function handleUpload(e) {
+    e.stopPropagation();
     const formData = new FormData();
-    formData.append("file", file);
-    fetch('https://tr593l1uo0.execute-api.eu-north-1.amazonaws.com/dev/myawspoc-storage/'+file, {
-      method: "PUT",
-      body: formData,
-    })
+    formData.append("File", file);
+    await fetch(
+      `https://tr593l1uo0.execute-api.eu-north-1.amazonaws.com/dev/myawspoc-storage/${file.name}`,
+      {
+        method: "PUT",
+        body: formData,
+        headers: {
+          "X-Api-Key": "17z6erLmc899fL1oYRgIe79nloPuvmaY6K1YWLNn",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((result) => {
         console.log("success", result);
@@ -24,10 +32,9 @@ function App() {
   return (
     <div>
       <h2>File Uploading into S3</h2>
-      <form onSubmit={handleUpload}>
-        <input type="file" name="file" onChange={handleFile} />
-        <button>Upload</button>
-      </form>
+
+      <input type="file" name="file" onChange={handleFile} />
+      <button onClick={handleUpload}>Upload</button>
     </div>
   );
 }
