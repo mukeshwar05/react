@@ -31,7 +31,7 @@ function App() {
   }
   return (
     <div>
-      <h2>File Uploading into S3</h2>
+      <h2>File Uploading into S3 AWS</h2>
 
       <input type="file" name="file" onChange={handleFile} />
       <button onClick={handleUpload}>Upload</button>
