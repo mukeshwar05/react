@@ -12,13 +12,13 @@ function App() {
     const formData = new FormData();
     formData.append("File", file);
     await fetch(
-      `https://tr593l1uo0.execute-api.eu-north-1.amazonaws.com/dev/bucket/myawspoc-storage/${file.name}`,
+      `/api/bucket/myawspoc-storage/${file.name}`,
       {
         method: "PUT",
         body: formData,
-        headers: {
-          Authorization: "muki", 
-        },
+        // headers: {
+        //   Authorization: "muki", 
+        // },
       }
     )
       .then((response) => response.json())
