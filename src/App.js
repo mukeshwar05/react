@@ -12,13 +12,10 @@ function App() {
     const formData = new FormData();
     formData.append("File", file);
     await fetch(
-      `/api/bucket/myawspoc-storage/${file.name}`,
+      `https://q7k1p38k87.execute-api.eu-north-1.amazonaws.com/dev/upload/myawspoc-storage/${file.name}`,
       {
         method: "PUT",
         body: formData,
-        // headers: {
-        //   Authorization: "muki", 
-        // },
       }
     )
       .then((response) => response.json())
@@ -31,7 +28,7 @@ function App() {
   }
   return (
     <div>
-      <h2>File Uploading into S3 AWS</h2>
+      <h2>File Uploading into S3</h2>
 
       <input type="file" name="file" onChange={handleFile} />
       <button onClick={handleUpload}>Upload</button>
