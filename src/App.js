@@ -1,38 +1,24 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Signup from "./Signup";
+import "bootstrap/dist/css/bootstrap.min.css";
+import FileUpload from "./FileUpload";
 
 function App() {
-  const [file, setFile] = useState();
-
-  function handleFile(event) {
-    setFile(event.target.files[0]);
-  }
-  async function handleUpload(e) {
-    e.stopPropagation();
-    const formData = new FormData();
-    formData.append("File", file);
-    await fetch(
-      `https://q7k1p38k87.execute-api.eu-north-1.amazonaws.com/dev/upload/myawspoc-storage/${file.name}`,
-      {
-        method: "PUT",
-        body: formData,
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("success", result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  const [token, setToken] = useState("");
   return (
-    <div>
-      <h2>File Uploading into S3</h2>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<Login token={token} setToken={setToken} />}
+        ></Route>
+        <Route path="/signup" element={<Signup />}></Route>
 
-      <input type="file" name="file" onChange={handleFile} />
-      <button onClick={handleUpload}>Upload</button>
-    </div>
+        {token && <Route path="/fileUpload" element={<FileUpload token={token} />}></Route>}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
